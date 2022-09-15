@@ -3,7 +3,6 @@ package com.orderfulfillmentsimulation.model;
 import com.orderfulfillmentsimulation.utils.OrderState;
 import lombok.Data;
 
-import java.util.Date;
 
 @Data
 public class Order {
@@ -12,10 +11,7 @@ public class Order {
     Long prepTime;
     Long pickupTime;
     Long readyTime;
-
-
+    Long courierArriveTime;
     OrderState currentState;
-
-    Long deliveryTime;
 
 }

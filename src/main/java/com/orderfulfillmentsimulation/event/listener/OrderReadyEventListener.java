@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
- * Event listener that listed for when an order is ready event
+ * Event listener that listed for when an order is ready
  */
 @Component
 public class OrderReadyEventListener {

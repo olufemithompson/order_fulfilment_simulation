@@ -20,7 +20,10 @@ import java.util.Optional;
 @Slf4j
 public class OrderBoundDispatchStrategy extends DispatchStrategy {
 
+    //since orders are matched for courier we just use arrays to hold list of
+    //orders and courier waiting for pickup and delivery
     List<Order> orders = new ArrayList<>();
+
     List<Courier> couriers = new ArrayList<>();
 
     @Autowired
@@ -31,7 +34,8 @@ public class OrderBoundDispatchStrategy extends DispatchStrategy {
 
     @Override
     public void addCourier(Courier courier) {
-        log.info("Courier Arrived, {}"+courier.getId());
+        log.info("Courier Arrived, {}",courier.getId());
+        courier.setArriveTime(System.currentTimeMillis());
         couriers.add(courier);
         pickupOrder(courier);
     }
@@ -56,6 +60,10 @@ public class OrderBoundDispatchStrategy extends DispatchStrategy {
 
             couriers.remove(courier);
             orders.remove(order);
+
+            //set the courier arrive time here as this is the only time we get it from courier
+            order.setCourierArriveTime(courier.getArriveTime());
+            eventPublisher.publishOrderPickedUpEvent(new OrderPickupEvent(order,courier));
         }
     }
 
@@ -70,6 +78,9 @@ public class OrderBoundDispatchStrategy extends DispatchStrategy {
 
             couriers.remove(courier);
             orders.remove(order);
+
+            //set the courier arrive time here as this is the only time we get it from courier
+            order.setCourierArriveTime(courier.getArriveTime());
             eventPublisher.publishOrderPickedUpEvent(new OrderPickupEvent(order,courier));
         }
     }

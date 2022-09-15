@@ -35,6 +35,7 @@ public class QueueCourierDispatchStrategy extends DispatchStrategy{
     @Override
     public void addCourier(Courier courier) {
         log.info("Courier Arrived, {}", courier.getId());
+        courier.setArriveTime(System.currentTimeMillis());
         couriers.add(courier);
         deliverOrder();
     }
@@ -55,6 +56,9 @@ public class QueueCourierDispatchStrategy extends DispatchStrategy{
 
             //get first order
             Order order = orders.poll();
+
+            //set the courier arrive time here as this is the only time we get it from courier
+            order.setCourierArriveTime(courier.getArriveTime());
             eventPublisher.publishOrderPickedUpEvent(new OrderPickupEvent(order,courier));
         }
     }

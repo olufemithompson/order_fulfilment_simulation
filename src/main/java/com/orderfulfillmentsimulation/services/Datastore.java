@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Datastore component that simulates database
+ * Datastore component that simulates database operations
  */
 @Component
 public class Datastore {
@@ -34,16 +34,21 @@ public class Datastore {
         orders = mapper.readValue(resourceFile.getFile(), new TypeReference<List<Order>>(){});
     }
 
-
-
-    public List<Order> getNextOrders(){
-        List<Order> nextOrders = orders.subList(loadIndex, loadIndex+2);
-        loadIndex+=2;
-        return nextOrders;
+    public List<Order> getAllOrders(){
+        return orders;
     }
 
-    public Order get(String id){
-        return orders.stream().filter((Order i)->i.getId().equals(id)).findFirst().orElse(null);
+    public List<Order> getNextOrders(){
+        if(loadIndex < orders.size()){
+            int lastIndex = loadIndex  + 2;
+            if(orders.size() < lastIndex){
+                lastIndex = orders.size();
+            }
+            List<Order> nextOrders = orders.subList(loadIndex, lastIndex);
+            loadIndex+=2;
+            return nextOrders;
+        }
+        return null;
     }
 
     public void setReady(String id){
@@ -69,8 +74,11 @@ public class Datastore {
         }
     }
 
-    public void setReceived(Order order){
-        order.setCurrentState(OrderState.ORDER_RECEIEVED);
+    public void setReceived(String id){
+        Optional<Order> order = orders.stream().filter((Order i)->i.getId().equals(id)).findFirst();
+        if(order.isPresent()){
+            order.get().setCurrentState(OrderState.ORDER_RECEIEVED);
+        }
     }
 
     public boolean isAllOrderCompleted(){

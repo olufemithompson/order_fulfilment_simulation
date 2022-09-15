@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Component that handles preparing of the order
+ */
 @Component
 @Slf4j
 public class OrderPreparer {
@@ -19,20 +22,12 @@ public class OrderPreparer {
     @Autowired
     Datastore datastore;
 
-
-    public void prepareOrders(List<Order> orders) throws InterruptedException {
-        for(Order order: orders){
-            prepareOrder(order);
-        }
-    }
-
     @Async
-    private void prepareOrder(Order order) throws InterruptedException {
+    public void prepareOrder(Order order) throws InterruptedException {
         long timeToWait = order.getPrepTime()*1000;
         log.info("Order prepared, {} - {} for {} secs", order.getId(), order.getName(), order.getPrepTime());
         datastore.setReady(order.getId());
         Thread.sleep(timeToWait);
-        log.info("Order Done prepared, {} - {}", order.getId(), order.getName());
         eventPublisher.publishOrderReadyEvent(new OrderReadyEvent(order));
     }
 

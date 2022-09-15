@@ -4,9 +4,8 @@ import com.orderfulfillmentsimulation.model.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 @Data
 @AllArgsConstructor
-public class OrderReadyEvent {
+public class PrepareOrderEvent {
     Order order;
 }

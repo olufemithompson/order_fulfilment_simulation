@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
+    id 'application'
 }
 
 group 'com.orderfulfillmentsimulation'
@@ -20,6 +21,8 @@ repositories {
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'com.massisframework:j-text-utils:0.3.4'
+    implementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -28,3 +31,5 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+mainClassName = 'com.orderfulfillmentsimulation.Application'
