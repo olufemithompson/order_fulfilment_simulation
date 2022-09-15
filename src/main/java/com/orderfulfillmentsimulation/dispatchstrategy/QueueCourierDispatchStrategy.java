@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayDeque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -26,10 +27,10 @@ public class QueueCourierDispatchStrategy extends DispatchStrategy{
 
 
     //use a queue to ensure FIFO for choosing which courier to deliver the order
-    Queue<Courier> couriers = new PriorityQueue<>();
+    Queue<Courier> couriers = new ArrayDeque<>();
 
     //use a queue to hold orders that have been prepared. the first order in the queue will be picked up first by the courier
-    Queue<Order> orders = new PriorityQueue<>();
+    Queue<Order> orders = new ArrayDeque<>();
 
     @Override
     public void addCourier(Courier courier) {
@@ -41,8 +42,7 @@ public class QueueCourierDispatchStrategy extends DispatchStrategy{
     @Override
     public void orderReady(Order order){
         orders.add(order);
-
-        log.info("Order Ready : {}-{}"+order.getId(),order.getName());
+        log.info("Order Ready : {}-{}",order.getId(),order.getName());
         deliverOrder();
     }
 

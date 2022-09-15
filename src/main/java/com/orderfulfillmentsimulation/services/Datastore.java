@@ -74,7 +74,7 @@ public class Datastore {
     }
 
     public boolean isAllOrderCompleted(){
-        return orders.stream().filter((Order i)-> i.getCurrentState().equals(OrderState.ORDER_PICKEDUP)).count() == orders.size();
+        return orders.stream().filter((Order i)-> i.getCurrentState() != null && i.getCurrentState().equals(OrderState.ORDER_PICKEDUP)).count() == orders.size();
     }
 
 

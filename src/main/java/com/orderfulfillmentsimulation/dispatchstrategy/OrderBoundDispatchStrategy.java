@@ -39,7 +39,7 @@ public class OrderBoundDispatchStrategy extends DispatchStrategy {
     @Override
     public void orderReady(Order order) {
         orders.add(order);
-        log.info("Order Ready : {}-{}"+order.getId(),order.getName());
+        log.info("Order Ready : {}-{}",order.getId(),order.getName());
         pickupOrder(order);
     }
 
@@ -52,7 +52,7 @@ public class OrderBoundDispatchStrategy extends DispatchStrategy {
         if(courierResult.isPresent()){
             Courier courier = courierResult.get();
             datastore.setPickedUp(order.getId());
-            log.info("Order picked up : {}-{}, by courier : {}"+order.getId(),order.getName(),courier.getId());
+            log.info("Order picked up : {}-{}, by courier : {}",order.getId(),order.getName(),courier.getId());
 
             couriers.remove(courier);
             orders.remove(order);

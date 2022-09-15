@@ -31,7 +31,7 @@ public class OrderPickupEventListener {
         Courier courier = event.getCourier();
 
         datastore.setPickedUp(order.getId());
-        log.info("Order picked up : {}-{}, by courier : {}"+order.getId(),order.getName(),courier.getId());
+        log.info("Order picked up : {}-{}, by courier : {}",order.getId(),order.getName(),courier.getId());
 
         if(datastore.isAllOrderCompleted()){
             //print statistics;
